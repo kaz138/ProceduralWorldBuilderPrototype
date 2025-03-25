@@ -93,9 +93,14 @@ const PromptInput = ({ onSubmit }: PromptInputProps) => {
   };
 
   const selectPreset = (preset: WorldPreset) => {
-    setPrompt(preset.prompt);
+    // First update the theme visually to provide immediate feedback
     setCurrent(preset.theme);
-    setShowPresets(false);
+    
+    // Then, with a slight delay, update the text and hide presets
+    setTimeout(() => {
+      setPrompt(preset.prompt);
+      setShowPresets(false);
+    }, 300); // 300ms delay for visual effect
   };
 
   const examples = [
@@ -105,8 +110,33 @@ const PromptInput = ({ onSubmit }: PromptInputProps) => {
   ];
 
   const insertExample = (example: string) => {
-    setPrompt(example);
-    setShowPresets(false);
+    // Set a random theme for visual interest when using examples
+    const themes: Array<"mountain" | "forest" | "city" | "coastal" | "default"> = [
+      "mountain", "forest", "city", "coastal", "default"
+    ];
+    
+    // Choose a theme based on the content of the example
+    let theme: "mountain" | "forest" | "city" | "coastal" | "default" = "default";
+    
+    if (example.includes("castle") || example.includes("hill") || example.includes("mountain")) {
+      theme = "mountain";
+    } else if (example.includes("forest") || example.includes("tree")) {
+      theme = "forest";
+    } else if (example.includes("city") || example.includes("building")) {
+      theme = "city";
+    } else if (example.includes("ocean") || example.includes("sea") || example.includes("water")) {
+      theme = "coastal";
+    }
+    
+    // Update theme first for visual feedback
+    setCurrent(theme);
+    
+    // Then update text with a slight delay
+    setTimeout(() => {
+      setPrompt(example);
+      setShowPresets(false);
+      setShowTips(false);
+    }, 300);
   };
 
   return (
@@ -156,10 +186,10 @@ const PromptInput = ({ onSubmit }: PromptInputProps) => {
               <button 
                 type="button"
                 onClick={() => setShowPresets(true)}
-                className="text-white/50 hover:text-white/80 transition-colors text-sm flex items-center"
+                className="text-white/50 hover:text-white/80 transition-colors text-sm flex items-center bg-white/5 px-2 py-1 rounded"
               >
                 <Lightbulb className="w-4 h-4 mr-1" />
-                Show suggestions
+                Need ideas?
               </button>
             </div>
           )}
@@ -183,17 +213,22 @@ const PromptInput = ({ onSubmit }: PromptInputProps) => {
                 {worldPresets.map((preset) => (
                   <motion.button
                     key={preset.name}
-                    whileHover={{ scale: 1.03, y: -2 }}
+                    whileHover={{ 
+                      scale: 1.03, 
+                      y: -2,
+                      backgroundColor: "rgba(255,255,255,0.1)", 
+                      borderColor: "rgba(255,255,255,0.3)"
+                    }}
                     whileTap={{ scale: 0.98 }}
                     type="button"
                     onClick={() => selectPreset(preset)}
-                    className={`flex flex-col items-center justify-center text-white bg-gradient-to-br ${preset.bgGradient} rounded-lg p-5 shadow-lg text-center h-full transition-all hover:shadow-xl border border-white/10`}
+                    className={`flex flex-col items-center justify-center text-white bg-gradient-to-br ${preset.bgGradient} rounded-lg p-3 shadow-lg text-center h-full transition-all hover:shadow-xl border border-white/10`}
                   >
-                    <div className="bg-white/20 p-3 rounded-full mb-3">
+                    <div className="bg-white/20 p-2 rounded-full mb-2">
                       {preset.icon}
                     </div>
-                    <h4 className="font-bold text-lg mb-1">{preset.name}</h4>
-                    <p className="text-white/80 text-sm">{preset.description}</p>
+                    <h4 className="font-bold text-md mb-1">{preset.name}</h4>
+                    <p className="text-white/80 text-xs">{preset.description}</p>
                   </motion.button>
                 ))}
               </div>

@@ -121,8 +121,10 @@ const BackgroundScene = () => {
     // Animate grid
     if (gridRef.current) {
       gridRef.current.position.y = Math.sin(t) * 0.2 - 2;
+      // Rotate the grid counterclockwise by 90 degrees (Math.PI/2 radians)
       gridRef.current.rotation.x = Math.PI / 2; // Keep it horizontal
-      gridRef.current.rotation.z = Math.sin(t * 0.3) * 0.05; // Gentle wave effect
+      gridRef.current.rotation.y = -Math.PI / 2; // Rotate 90 degrees counterclockwise
+      gridRef.current.rotation.z = Math.sin(t * 0.3) * 0.03; // Gentler wave effect
     }
     
     // Animate particles
