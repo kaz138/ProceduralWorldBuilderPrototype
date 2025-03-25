@@ -1,7 +1,6 @@
 import { useRef, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { Text } from "@react-three/drei";
 import { isPrefabType } from "@/types/prefabs";
 import Prefabs from "./Prefabs";
 import { animateObjectEntry } from "@/lib/animations/buildAnimation";
@@ -28,7 +27,6 @@ const PrimitiveObject = ({
   onAnimationComplete
 }: PrimitiveObjectProps) => {
   const groupRef = useRef<THREE.Group>(null);
-  const labelRef = useRef<any>(null);
   const animationRef = useRef({
     started: false,
     completed: false,
@@ -67,10 +65,7 @@ const PrimitiveObject = ({
       }
     }
     
-    // Update label position to always face camera
-    if (labelRef.current) {
-      labelRef.current.lookAt(labelRef.current.camera.position);
-    }
+    // Label removed due to camera position error
   });
   
   // Create material based on color
@@ -82,8 +77,7 @@ const PrimitiveObject = ({
     />
   );
   
-  // Get the object name from the ID (last part after dots)
-  const objectName = id.split('.').pop() || id;
+  // Object name functionality removed with labels
   
   // Render based on primitive type
   const renderPrimitive = () => {
@@ -144,21 +138,7 @@ const PrimitiveObject = ({
     <group ref={groupRef} position={position} scale={scale}>
       {renderPrimitive()}
       
-      {/* Label with object name (only visible when close) */}
-      <Text
-        ref={labelRef}
-        position={[0, 1.2, 0]}
-        fontSize={0.3}
-        color="white"
-        anchorX="center"
-        anchorY="middle"
-        depthTest={false}
-        outlineWidth={0.02}
-        outlineColor="#000000"
-        visible={false} // Initially hidden, could be toggled by proximity
-      >
-        {objectName}
-      </Text>
+      {/* Removed text label that was causing errors */}
       
       {children}
     </group>
