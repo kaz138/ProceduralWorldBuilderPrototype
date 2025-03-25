@@ -135,7 +135,7 @@ const Prefabs = ({ type, scale = [1, 1, 1], color = [1, 1, 1] }: PrefabProps) =>
               key={i} 
               castShadow 
               receiveShadow 
-              position={pos}
+              position={pos as [number, number, number]}
             >
               <boxGeometry args={[0.05, 0.5, 0.05]} />
               <primitive object={material} attach="material" />
@@ -168,7 +168,7 @@ const Prefabs = ({ type, scale = [1, 1, 1], color = [1, 1, 1] }: PrefabProps) =>
               key={i} 
               castShadow 
               receiveShadow 
-              position={pos}
+              position={pos as [number, number, number]}
             >
               <boxGeometry args={[0.1, 0.8, 0.1]} />
               <primitive object={material} attach="material" />
@@ -211,7 +211,7 @@ const Prefabs = ({ type, scale = [1, 1, 1], color = [1, 1, 1] }: PrefabProps) =>
               key={i} 
               castShadow 
               receiveShadow 
-              position={pos}
+              position={pos as [number, number, number]}
               rotation={[Math.PI / 2, 0, 0]}
             >
               <cylinderGeometry args={[0.2, 0.2, 0.1, 16]} />
@@ -298,7 +298,7 @@ const Prefabs = ({ type, scale = [1, 1, 1], color = [1, 1, 1] }: PrefabProps) =>
               key={i} 
               castShadow 
               receiveShadow 
-              position={pos}
+              position={pos as [number, number, number]}
             >
               <boxGeometry args={[0.08, 0.5, 0.08]} />
               <primitive object={material} attach="material" />
