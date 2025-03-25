@@ -1,0 +1,129 @@
+# MVP Product Requirements Document: Procedural World Generation Experience
+
+## Core Concept
+A single-player web experience where users enter a text prompt to generate a unique world, visualized through simple geometric primitives. The focus is on world creation and visualization, adhering to the "Bottom-up LLM-driven world building" philosophy.
+
+## Technical Components
+
+### Frontend:
+- React-based UI with a prompt input field and submit button
+- Three.js rendering canvas for 3D world visualization
+- Basic camera controls (pan, zoom, rotate) for world exploration
+- Zustand for state management
+- Client-side primitive and prefab construction based on backend scene graph data
+
+### Backend:
+- Lightweight server framework for handling API requests
+- Integration with an LLM service (e.g., OpenAI's GPT-4) for world generation
+- Simple scene graph management system
+
+## Phased Implementation
+
+### Phase 1: Frontend Visualization with Mock Data (3-4 hours)
+1. Set up React application structure
+2. Implement basic UI with text input for world prompts
+3. Create Three.js canvas for 3D rendering
+4. Develop basic camera control system
+5. Set up Zustand for state management
+6. Implement mock world generation with basic primitives
+7. Add "Generate World" button to trigger mock generation
+8. Implement progressive building animation
+
+### Phase 2: Backend Integration and LLM-based World Generation (4-5 hours)
+1. Set up a lightweight server framework
+2. Create API endpoint for world generation requests
+3. Integrate LLM service for processing world prompts
+4. Develop structured prompt template for hierarchical scene graph generation
+5. Implement structured response format for LLM output
+6. Create scene graph validation system
+7. Modify frontend to use real backend instead of mock data
+8. Update frontend visualization to interpret scene graph data
+
+### Phase 3: Refinement and Polish (2-3 hours)
+1. Improve progressive building animation following scene graph hierarchy
+2. Enhance primitive construction for varied world elements
+3. Implement basic vertex coloring for visual differentiation
+4. Add loading indicator and error handling
+5. Optimize performance for larger scene graphs
+6. Implement basic object labeling system
+
+## Key Features
+
+1. World Prompt Processing:
+   - Parse user input for theme, rules, and environmental characteristics
+   - Structure LLM prompts to generate consistent world descriptions
+
+2. Progressive World Building:
+   - Start with large structures (terrain, major landmarks)
+   - Add medium-scale elements (buildings, natural features)
+   - Finish with small details (props, decorations)
+
+3. Primitive-based Visualization:
+   - Use boxes, triangles, and spheres as base shapes
+   - Implement vertex coloring for basic differentiation
+   - Create a simple object labeling system for identification
+
+4. Scale Reference System:
+   - Implement a basic scale indicator to give context to world size
+
+5. Camera Controls:
+   - Allow users to pan, zoom, and rotate to explore the generated world
+
+6. Minimal UI:
+   - Input field for world prompt
+   - Generate button to trigger world creation
+   - Simple instructions for user guidance
+
+7. Scene Graph Structure:
+   - Simplified hierarchical structure:
+     ```yaml
+     world:
+       - building023:
+           type: box
+           position: [x, y, z]
+           scale: [x, y, z]
+           color: [r, g, b]
+           children:
+             - roof023:
+                 type: box
+                 position: [x, y, z]
+                 ...
+             - chair03:
+                 type: chair
+                 position: [x, y, z]
+                 ...
+     ```
+   - Predefined set of primitives and prefabs for LLM to use
+
+8. Prefab System:
+   - Implement a set of predefined non-primitive prefabs (e.g., chair, table, tree)
+   - LLM uses these prefabs without needing to define them
+
+9. Progressive LOD Generation:
+   - Implement a Level of Detail (LOD) system in both backend and client
+   - Use placeholder objects for unloaded child elements
+   - Allow for progressive refinement of world details
+
+10. UX Flow:
+    - Start with a blank world featuring a grid backdrop
+    - Display an input box front and center with helpful tips
+    - Show a waiting screen after user input
+    - Transition to the initial world state (e.g., world plate)
+    - Progressively load and render more details as they're generated
+
+## Scope Limitations
+- No character systems or NPCs
+- No physics implementation
+- No multiplayer components
+- Limited world size (town-scale only)
+- No complex interactions with world objects
+- No custom assets or textures, using only primitive shapes and predefined prefabs
+
+This MVP focuses on validating the core experience of LLM-driven procedural world generation using simple visual primitives and prefabs, making it achievable within a one-day game jam timeframe while still testing the fundamental concept behind the larger vision of a dynamic, evolving virtual world.
+
+Citations:
+[1] https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/19316742/7246efc2-70cb-445a-aa95-c082216c623f/implementation-notes.md
+[2] https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/19316742/7deea4f3-7006-4c00-a62e-07867743a406/design-notes.md
+
+---
+Answer from Perplexity: pplx.ai/share
