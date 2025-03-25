@@ -35,8 +35,8 @@ function App() {
         <Canvas
           shadows
           camera={{
-            position: [0, 10, 20],
-            fov: 50,
+            position: [0, 8, 15], // Closer starting position
+            fov: 60, // Wider field of view (was 50)
             near: 0.1,
             far: 1000
           }}
@@ -64,14 +64,29 @@ function App() {
               <BackgroundScene />
             </>
           ) : (
-            // Regular 3D world rendering
+            // Regular 3D world rendering with enhanced lighting
             <>
-              <ambientLight intensity={0.5} />
+              {/* Increase ambient light intensity for better overall visibility */}
+              <ambientLight intensity={0.7} />
+              
+              {/* Main directional light - brighter */}
               <directionalLight 
                 position={[10, 10, 10]} 
-                intensity={1} 
+                intensity={1.2} 
                 castShadow 
                 shadow-mapSize={2048}
+              />
+              
+              {/* Add fill light from opposite direction */}
+              <directionalLight 
+                position={[-5, 8, -10]} 
+                intensity={0.6} 
+                color="#b0c4de"
+              />
+              
+              {/* Add subtle ground-bounce light */}
+              <hemisphereLight 
+                args={["#ffffff", "#303030", 0.5]}
               />
               
               {/* Camera controls for scene exploration */}

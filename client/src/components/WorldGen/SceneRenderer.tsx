@@ -44,23 +44,26 @@ const SceneRenderer = () => {
     }
   }, [scene]);
   
-  // Process the animation queue
+  // Process the animation queue - with faster processing
   useFrame((_, delta) => {
     if (animationQueue.length > 0 && !animationInProgress && !isGenerating) {
       // Start animating the next object
       setAnimationInProgress(true);
-      const nextObjectId = animationQueue[0];
       
-      // After a small delay, mark the object as visible and remove from queue
+      // Process multiple objects at once for faster scene building
+      const batchSize = Math.min(3, animationQueue.length); // Process up to 3 objects at once
+      const objectsToProcess = animationQueue.slice(0, batchSize);
+      
+      // Mark objects as visible immediately and remove from queue
       setTimeout(() => {
-        setVisibleObjects(prev => [...prev, nextObjectId]);
-        setAnimationQueue(prev => prev.slice(1));
+        setVisibleObjects(prev => [...prev, ...objectsToProcess]);
+        setAnimationQueue(prev => prev.slice(batchSize));
         
-        // Allow the next animation to start after a short delay
+        // Allow the next animation batch to start after a shorter delay
         setTimeout(() => {
           setAnimationInProgress(false);
-        }, 100); // Small delay between animations
-      }, 100);
+        }, 50); // Reduced delay between animations (was 100)
+      }, 50); // Reduced initial delay (was 100)
     }
   });
   

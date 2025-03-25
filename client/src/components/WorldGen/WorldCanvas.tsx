@@ -9,6 +9,8 @@ const WorldCanvas = () => {
   useEffect(() => {
     // Create a grid helper as a visual reference
     const gridHelper = new THREE.GridHelper(100, 100, 0x444444, 0x222222);
+    // Rotate grid 90 degrees counterclockwise around Y axis
+    gridHelper.rotation.y = Math.PI / 2;
     scene.add(gridHelper);
     
     // Add a simple ground plane

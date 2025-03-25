@@ -181,7 +181,8 @@ const PromptInput = ({ onSubmit }: PromptInputProps) => {
             className="w-full p-4 rounded-lg bg-black/30 text-white border border-white/20 min-h-[120px] focus:outline-none focus:ring-2 focus:ring-indigo-500/50 text-lg"
           />
           
-          {prompt.length === 0 && !showTips && !showPresets && (
+          {/* Always show Need Ideas button when presets and tips are not visible */}
+          {!showTips && !showPresets && (
             <div className="absolute bottom-3 right-3">
               <button 
                 type="button"

@@ -22,13 +22,14 @@ const CameraControls = () => {
         // Position camera to get a good view of the scene
         const size = sceneBounds.getSize(new THREE.Vector3());
         const maxDim = Math.max(size.x, size.y, size.z);
-        const distance = maxDim * 1.5; // Add some padding
+        // Reduce the distance to zoom in more (was 1.5)
+        const distance = maxDim * 0.8; 
         
-        // Position camera at an angle
+        // Position camera at an angle - closer and steeper angle
         camera.position.set(
-          center.x + distance * 0.8,
-          center.y + distance * 0.6,
-          center.z + distance * 0.8
+          center.x + distance * 0.5, // Closer in X (was 0.8)
+          center.y + distance * 0.7, // Higher in Y (was 0.6)
+          center.z + distance * 0.5  // Closer in Z (was 0.8)
         );
         
         // Make camera look at center of scene

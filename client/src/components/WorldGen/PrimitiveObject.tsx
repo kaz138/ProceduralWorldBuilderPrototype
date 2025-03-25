@@ -33,13 +33,20 @@ const PrimitiveObject = ({
     progress: 0,
   });
   
-  // Animation effect
+  // Animation effect - modified for more prominent entrance
   useEffect(() => {
     if (groupRef.current && animate) {
       // Set initial state for animation
       const group = groupRef.current;
-      group.scale.set(0.001, 0.001, 0.001);
-      group.position.set(position[0], position[1] - 2, position[2]);
+      group.scale.set(0.01, 0.01, 0.01); // Start slightly larger (was 0.001)
+      
+      // Start closer to final position for faster appearance
+      group.position.set(
+        position[0], 
+        position[1] - 1, // Less vertical distance to travel (was -2)
+        position[2]
+      );
+      
       animationRef.current.started = true;
     }
   }, [position, animate]);
@@ -68,12 +75,14 @@ const PrimitiveObject = ({
     // Label removed due to camera position error
   });
   
-  // Create material based on color
+  // Create material based on color - enhanced to be more vibrant
   const material = (
     <meshStandardMaterial 
       color={new THREE.Color(color[0], color[1], color[2])}
-      roughness={0.7}
-      metalness={0.2}
+      roughness={0.4} // Lower roughness for more shine (was 0.7)
+      metalness={0.3} // Slightly more metallic (was 0.2)
+      emissive={new THREE.Color(color[0]/3, color[1]/3, color[2]/3)} // Add slight emissive glow
+      emissiveIntensity={0.3} // Subtle emissive effect
     />
   );
   
