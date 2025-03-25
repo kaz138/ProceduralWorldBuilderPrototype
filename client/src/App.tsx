@@ -11,11 +11,23 @@ import BackgroundScene from "./components/WorldGen/BackgroundScene";
 import LoadingIndicator from "./components/WorldGen/LoadingIndicator";
 import { useWorldGen } from "./lib/stores/useWorldGen";
 import { useTheme } from "./lib/stores/useTheme";
+import { useGame } from "./lib/stores/useGame";
+import { useCharacters } from "./lib/stores/useCharacters";
+
+// Import character components
+import { CharacterCreation, CharacterList } from "./components/Characters";
+
+// Add uuid package for character IDs
+import { v4 as uuidv4 } from 'uuid';
 
 function App() {
   const { isLoading, isGenerating } = useWorldGen();
   const [promptVisible, setPromptVisible] = useState(true);
   const { cycleTheme } = useTheme();
+  const { phase, start } = useGame();
+  
+  // Character creation modal state
+  const [isCreatingCharacter, setIsCreatingCharacter] = useState(false);
   
   // Auto cycle through themes on the welcome screen
   useEffect(() => {
@@ -27,6 +39,25 @@ function App() {
     
     return () => clearInterval(interval);
   }, [promptVisible, cycleTheme]);
+  
+  // Start game when a world is generated
+  useEffect(() => {
+    if (!isGenerating && !promptVisible && phase !== "playing") {
+      start();
+    }
+  }, [isGenerating, promptVisible, phase, start]);
+  
+  // Handle world creation completion
+  const handleWorldCreated = () => {
+    setPromptVisible(false);
+    // Show character creation modal after world is created
+    setIsCreatingCharacter(true);
+  };
+  
+  // Handle character creation completion
+  const handleCharacterCreated = () => {
+    setIsCreatingCharacter(false);
+  };
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -104,7 +135,7 @@ function App() {
         {/* Prompt input overlay */}
         {promptVisible && (
           <div className="absolute inset-0 flex items-center justify-center z-10">
-            <PromptInput onSubmit={() => setPromptVisible(false)} />
+            <PromptInput onSubmit={handleWorldCreated} />
           </div>
         )}
         
@@ -118,6 +149,21 @@ function App() {
             <div className="mr-3 bg-indigo-500 h-3 w-3 rounded-full animate-pulse"></div>
             Building world...
           </motion.div>
+        )}
+        
+        {/* Character creation modal */}
+        {isCreatingCharacter && (
+          <CharacterCreation
+            onComplete={handleCharacterCreated}
+            onCancel={() => setIsCreatingCharacter(false)}
+          />
+        )}
+        
+        {/* Character list UI */}
+        {!promptVisible && !isGenerating && phase === "playing" && (
+          <CharacterList
+            onAddNewClick={() => setIsCreatingCharacter(true)}
+          />
         )}
         
         {/* Reset button (only show when a world is visible) */}

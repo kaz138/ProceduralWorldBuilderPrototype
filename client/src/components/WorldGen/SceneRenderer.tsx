@@ -1,21 +1,29 @@
 import { useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useWorldGen } from "@/lib/stores/useWorldGen";
+import { useGame } from "@/lib/stores/useGame";
 import PrimitiveObject from "./PrimitiveObject";
 import WorldCanvas from "./WorldCanvas";
-import { animateObjectEntry } from "@/lib/animations/buildAnimation";
+import { 
+  CharacterManager, 
+  CharacterControlsComponent, 
+  CharacterControlsProvider 
+} from "@/components/Characters";
 
 const SceneRenderer = () => {
   const { scene, isGenerating } = useWorldGen();
+  const { phase } = useGame();
   const [visibleObjects, setVisibleObjects] = useState<string[]>([]);
   const [animationQueue, setAnimationQueue] = useState<string[]>([]);
   const [animationInProgress, setAnimationInProgress] = useState(false);
+  const [worldBuildComplete, setWorldBuildComplete] = useState(false);
   
   // Set up the base world canvas
   useEffect(() => {
     // Reset the animation state when a new scene comes in
     if (scene) {
       setVisibleObjects([]);
+      setWorldBuildComplete(false);
       
       // Gather all objects to animate
       const objectIds: string[] = [];
@@ -65,6 +73,11 @@ const SceneRenderer = () => {
         }, 50); // Reduced delay between animations (was 100)
       }, 50); // Reduced initial delay (was 100)
     }
+    
+    // Check if world building is complete
+    if (animationQueue.length === 0 && !animationInProgress && !isGenerating && !worldBuildComplete) {
+      setWorldBuildComplete(true);
+    }
   });
   
   // If there's no scene data, just render the base world canvas
@@ -98,10 +111,18 @@ const SceneRenderer = () => {
   };
   
   return (
-    <>
+    <CharacterControlsProvider>
       <WorldCanvas />
       {scene.children?.map((node: any) => renderNode(node))}
-    </>
+      
+      {/* Add character system once world is built */}
+      {worldBuildComplete && phase === "playing" && (
+        <>
+          <CharacterManager />
+          <CharacterControlsComponent />
+        </>
+      )}
+    </CharacterControlsProvider>
   );
 };
 
