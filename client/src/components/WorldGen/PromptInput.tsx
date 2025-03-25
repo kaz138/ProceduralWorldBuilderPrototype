@@ -5,10 +5,10 @@ import {
   HelpCircle, 
   Lightbulb, 
   Sparkles, 
-  Mountains, 
-  Trees, 
-  Building2, 
-  Ship 
+  Mountain, 
+  Palmtree, 
+  Building, 
+  Anchor 
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -38,7 +38,7 @@ const PromptInput = ({ onSubmit }: PromptInputProps) => {
     {
       name: "Mountain Village",
       theme: "mountain",
-      icon: <Mountains className="w-6 h-6" />,
+      icon: <Mountain className="w-6 h-6" />,
       description: "A peaceful mountain village with wooden cabins and waterfalls",
       prompt: "A serene mountain village with wooden cabins, pine trees, a waterfall, and snow-capped peaks in the background",
       bgGradient: "from-indigo-800 to-purple-900"
@@ -46,7 +46,7 @@ const PromptInput = ({ onSubmit }: PromptInputProps) => {
     {
       name: "Enchanted Forest",
       theme: "forest",
-      icon: <Trees className="w-6 h-6" />,
+      icon: <Palmtree className="w-6 h-6" />,
       description: "A mystical forest with glowing plants and ancient trees",
       prompt: "An enchanted forest with massive ancient trees, glowing mushrooms, hanging vines, and a small clearing with a mystical pond",
       bgGradient: "from-emerald-800 to-green-900"
@@ -54,7 +54,7 @@ const PromptInput = ({ onSubmit }: PromptInputProps) => {
     {
       name: "Futuristic City",
       theme: "city",
-      icon: <Building2 className="w-6 h-6" />,
+      icon: <Building className="w-6 h-6" />,
       description: "A high-tech city with skyscrapers and flying vehicles",
       prompt: "A futuristic city with towering skyscrapers, floating platforms, neon lights, holographic billboards, and flying vehicles",
       bgGradient: "from-slate-800 to-gray-900"
@@ -62,7 +62,7 @@ const PromptInput = ({ onSubmit }: PromptInputProps) => {
     {
       name: "Coastal Town",
       theme: "coastal",
-      icon: <Ship className="w-6 h-6" />,
+      icon: <Anchor className="w-6 h-6" />,
       description: "A picturesque coastal town with a lighthouse and harbor",
       prompt: "A coastal fishing town with a tall lighthouse, wooden piers, colorful boats in the harbor, and beach houses along the shore",
       bgGradient: "from-blue-800 to-cyan-900"

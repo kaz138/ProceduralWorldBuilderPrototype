@@ -106,15 +106,16 @@ const BackgroundScene = () => {
     // Animate camera - slow panning motion
     if (cameraRef.current) {
       // Smooth orbital camera movement
-      const cameraRadius = 25;
-      const cameraSpeed = 0.05;
-      const cameraHeight = 10 + Math.sin(t * 0.2) * 3;
+      const cameraRadius = 30;
+      const cameraSpeed = 0.03;
+      const cameraHeight = 15 + Math.sin(t * 0.15) * 2;
       
       const cameraX = Math.sin(time * cameraSpeed) * cameraRadius;
       const cameraZ = Math.cos(time * cameraSpeed) * cameraRadius;
       
       cameraRef.current.position.set(cameraX, cameraHeight, cameraZ);
-      cameraRef.current.lookAt(0, 0, 0);
+      // Look slightly down at the grid
+      cameraRef.current.lookAt(0, -4, 0);
     }
     
     // Animate grid
